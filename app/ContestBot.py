@@ -68,11 +68,11 @@ def update_status():
 
 
 def process_queue():
-    LOGGER.info("Let's go slepping for a while")
-    sleep(randint(100, 500))  # Wait in order to don't spam too much
     queue_list = [retweet, follow_user, update_status]
     while RTQueue.empty() is not True and FollowQueue.empty() is not True and TweetQueue.empty is not True:  # Empty the Queues randomly
         choice(queue_list)()
+        LOGGER.info("Let's go slepping for a while")
+        sleep(randint(100, 500))  # Wait in order to don't spam too much
 
 if __name__ == '__main__':
     # OAuth to Twitter and get Api object
