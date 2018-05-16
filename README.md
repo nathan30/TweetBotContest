@@ -11,6 +11,8 @@ Python 3.5.3 or Python 3.6 (do not hesitate to test another version and tell me 
     $ sudo apt install python3-pip
     $ sudo pip install tweepy
 
+Don't forget to fill the data.json with all the API informations from the apps.twitter.com website
+
 # Functionality
 Follow the people in the tweet (using regex on the @ char) if needed
 
