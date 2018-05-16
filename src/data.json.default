@@ -1,9 +1,9 @@
 {
   "log_file"              : "/opt/TweetBot/log/contestBot.log",
-  "consumer_key"          : "vJhOQmt1ChZcbZR2eBIfzsVcG",
-  "consumer_secret"       : "q0mURAV94GDzGGsq6ODl5l6XPIGMKILsOINZ6mfSrv97wzoSin",
-  "access_token"          : "989122427878825984-lxcRVxDAPI19JV7GhartOp9WBMH4K9N",
-  "access_token_secret"   : "5ZlFAI7lbnoY2qzjesguLHgatiQEuVixHcKDDLuLLtN5B",
+  "consumer_key"          : "",
+  "consumer_secret"       : "",
+  "access_token"          : "",
+  "access_token_secret"   : "",
   "lang"                  : "fr",
   "search"                : ["#RT + #FOLLOW", "#concours"],
   "follow-keyword"        : ["follow", "#follow", "Follow", "#Follow", "follower", "#follower", "FOLLOW", "#FOLLOW", "following", "#following", "FOLLOWING", "#FOLLOWING", "Following", "#Following" ],
