@@ -13,10 +13,15 @@ Python 3.5.3 or Python 3.6 (do not hesitate to test another version and tell me 
 
 # Functionality
 Follow the people in the tweet (using regex on the @ char) if needed
+
 Follow the tweet author
+
 RT the tweet
+
 Tweet random citations
+
 Execute function randomly
+
 You can parameter the bot using the src/data.json file (banned words, search keyword etc..)
 
 ## Explanations
