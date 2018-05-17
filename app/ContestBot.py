@@ -42,11 +42,10 @@ def follow_user():
         for user in usersToFollow:
             try:
                 api.create_friendship(user)
+                LOGGER.info('Follow user : ' + user)
             except tweepy.error.TweepError as tweepError:
                 LOGGER.error(str(tweepError).encode('utf-8'))
                 break
-            LOGGER.info('Follow user : ' + user)
-
 
 def retweet():
     RT_id = RTQueue.get()
@@ -106,6 +105,7 @@ if __name__ == '__main__':
                         RTQueue.put(rt)
 
                         # Search follow keyword
+                        follow = None
                         if isRT:
                             if any(keyword in tweet.retweeted_status.full_text for keyword in follow_keyword):
                                 follow = [tweet.retweeted_status.user.screen_name, tweet.retweeted_status.full_text]
@@ -116,8 +116,8 @@ if __name__ == '__main__':
                             FollowQueue.put([(follow[0], follow[1])])
 
                         # Tweet Random quotes
-                        for citation in urlopen('https://kaamelott.chaudie.re/api/random'):
-                            randomTweet = json.loads(citation.decode('utf-8'))['citation']['citation']
-                        #randomTweet = json.load(urlopen('https://kaamelott.chaudie.re/api/random').decode('utf-8'))['citation']['citation']
+                        for citation in urlopen('https://talaikis.com/api/quotes/random/'):
+                            #randomTweet = json.loads(citation.decode('utf-8'))['citation']['citation']
+                            randomTweet = json.loads(citation.decode('utf-8'))['quote']
                         TweetQueue.put(randomTweet)
             process_queue()
