@@ -16,7 +16,6 @@ with open('/opt/TweetBot/src/data.json') as file:
     access_token_secret = data['access_token_secret']
     search_keyword = data['search']
     lang = data['lang']
-    banned_user = data['banned_user']
     banned_words = data['banned_words']
     follow_keyword = data['follow-keyword']
     log_file = data['log_file']
