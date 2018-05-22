@@ -2,6 +2,8 @@
 
 After seeing some article about making bot for contest, I decided to create mine. It's a first real project I made in Python. It's tested with python 3.5.3 and python 3.6. 
 
+After some days of use I've reached a 2.5 score out of 5 (at the start it was near 4.8) in the Bot-O-Meter application (check if a twitter account could be a bot or not) : https://botometer.iuni.iu.edu/#!/
+
 
 # Install
 Python 3.5.3 or Python 3.6 (do not hesitate to test another version and tell me if it's works)
