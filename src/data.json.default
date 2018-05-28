@@ -5,8 +5,9 @@
   "access_token"          : "",
   "access_token_secret"   : "",
   "lang"                  : "en",
-  "search"                : ["#RT + #FOLLOW", "#concours", "#giveway"],
-  "follow-keyword"        : ["follow", "#follow", "Follow", "#Follow", "follower", "#follower", "FOLLOW", "#FOLLOW", "following", "#following", "FOLLOWING", "#FOLLOWING", "Following", "#Following" ],
-  "banned_words"          : ["merci", "facebook", "netflix", "minecraft", "spotify", "nude", "paypal", "porn", "ejac", "gay", "sexe"],
+  "search"                : ["#RT + #FOLLOW", "RT + FOLLOW", "#giveway"],
+  "follow-keyword"        : ["follow", "#follow", "Follow", "#Follow", "follower", "#follower", "FOLLOW", "#FOLLOW", "following", "#following", "FOLLOWING", "#FOLLOWING$
+  "banned_words"          : ["merci", "facebook", "netflix", "minecraft", "spotify", "nude", "paypal", "porn", "ejac", "gay", "domination", "pron", "sexe", "dominatrice$
+  "banned_users"          : ["1Jour1Gratuit"],
   "nb_tweets_search"      : "1000"
 }
