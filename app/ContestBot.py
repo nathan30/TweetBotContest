@@ -3,7 +3,7 @@ import json
 from urllib.request import urlopen
 import logging
 import re
-import queue
+import queueClass
 from time import sleep
 from random import randint, choice
 
@@ -20,6 +20,7 @@ with open('/opt/TweetBot/src/data.json') as file:
     follow_keyword = data['follow-keyword']
     log_file = data['log_file']
     nb_tweets = data['nb_tweets_search']
+    banned_users = data['banned_users']
 
 # Set logger | DEBUG takes all log type | WARNING takes all log type except .info
 LOGGER = logging.getLogger('ContestBot')
@@ -28,7 +29,6 @@ formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 logFile.setFormatter(formatter)
 LOGGER.addHandler(logFile)
 LOGGER.setLevel(logging.DEBUG)
-
 
 def follow_user():
     if FollowQueue.empty() is not True:
@@ -75,13 +75,14 @@ def update_status():
 
 
 def process_queue():
-    LOGGER.info("RT size : " + str(RTQueue.qsize()) + ' - Follow size : ' + str(FollowQueue.qsize()) + ' - Tweet size : ' + str(TweetQueue.qsize()))
     queue_list = [retweet, follow_user, update_status]
     while RTQueue.empty() is not True or FollowQueue.empty() is not True or TweetQueue.empty() is not True:  # Empty the Queues randomly
+        LOGGER.info("RT size : " + str(RTQueue.qsize()) + ' - Follow size : ' + str(FollowQueue.qsize()) + ' - Tweet size : ' + str(TweetQueue.qsize()))
         choice(queue_list)()
-        time = randint(100,500)
+        time = randint(100,400)
         LOGGER.info("Let's go slepping for " + str(time/60) + " min")
         sleep(time)  # Wait in order to don't spam too much
+    LOGGER.info("END process_queue() function")
 
 if __name__ == '__main__':
     # OAuth to Twitter and get Api object
@@ -89,25 +90,31 @@ if __name__ == '__main__':
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, compression=True)
 
-    RTQueue = queue.Queue()  # Queue used to RT things one by one after a given time
-    TweetQueue = queue.Queue()  # Same for random tweets
-    FollowQueue = queue.Queue()  # Same for follow people
+    RTQueue = queueClass.Queue()  # Queue used to RT things one by one after a given time
+    TweetQueue = queueClass.Queue()  # Same for random tweets
+    FollowQueue = queueClass.Queue()  # Same for follow people
 
     # Start contest spamming process
     while True:
         for keyword in search_keyword:
             try:
+                LOGGER.info("Using keyword : " + keyword)
                 tweetsList = tweepy.Cursor(
                     api.search,
                     q=keyword,  # search query is case insensitive
                     lang=lang,
-                    tweet_mode="extended",
-                    result_type="recent",
+                    tweet_mode="extended"
                 ).items(int(nb_tweets))
 
                 for tweet in tweetsList:
                     isRT = hasattr(tweet, 'retweeted_status')  # Check if it's a RT
-                    if not isRT and not tweet.is_quote_status and not tweet.in_reply_to_status_id and not any(word for word in banned_words if word in tweet.full_text.lower()):  # Do net process quoted status and response of a tweet
+
+                    if isRT:
+                        user_screen_name = tweet.retweeted_status.user.screen_name
+                    else:
+                        user_screen_name = tweet.user.screen_name
+
+                    if not tweet.is_quote_status and not tweet.in_reply_to_status_id and user_screen_name not in banned_users and not any(word for word in banned_words if word in tweet.full_text.lower()):  # Do net process quoted status and response of a tweet
                         if not tweet.retweeted:  # Check you didn't already RT this tweet (not working for now)
                             if isRT:
                                 rt = tweet.retweeted_status.id
@@ -124,12 +131,14 @@ if __name__ == '__main__':
                                 if any(keyword in tweet.full_text for keyword in follow_keyword):
                                     follow = [tweet.user.screen_name, tweet.full_text]
                             if follow is not None:
-                                FollowQueue.put([(follow[0], follow[1])])
-
-                            # Tweet Random quotes
-                            for citation in urlopen('https://talaikis.com/api/quotes/random/'):
-                                randomTweet = json.loads(citation.decode('utf-8'))['quote']
-                            TweetQueue.put(randomTweet)
+                                if FollowQueue.put([(follow[0], follow[1])]) is True: # check if the fill is okay (aka no  duplicates)
+                                    # Tweet Random quotes if there is any follow, in order to don't have too much random tweet
+                                    try:
+                                        for citation in urlopen('https://talaikis.com/api/quotes/random/'):
+                                            randomTweet = json.loads(citation.decode('utf-8'))['quote']
+                                        TweetQueue.put(randomTweet)
+                                    except urllib.error.URLError:
+                                        LOGGER.info("Error getting random tweet from API")
                 process_queue()
             except tweepy.error.TweepError as tweepError:
                 LOGGER.error(str(tweepError).encode('utf-8'))
