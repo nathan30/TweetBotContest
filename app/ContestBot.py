@@ -2,8 +2,10 @@ import tweepy
 import json
 from urllib.request import urlopen
 import logging
+import logging.config
 import re
 import queueClass
+import datetime
 from time import sleep
 from random import randint, choice
 
@@ -22,13 +24,9 @@ with open('/opt/TweetBot/src/data.json') as file:
     nb_tweets = data['nb_tweets_search']
     banned_users = data['banned_users']
 
-# Set logger | DEBUG takes all log type | WARNING takes all log type except .info
-LOGGER = logging.getLogger('ContestBot')
-logFile = logging.FileHandler(log_file)
-formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-logFile.setFormatter(formatter)
-LOGGER.addHandler(logFile)
-LOGGER.setLevel(logging.DEBUG)
+# Set logger
+logging.config.fileConfig(log_file)
+LOGGER = logging.getLogger('superAwesomeLogzioLogger')
 
 def follow_user():
     if FollowQueue.empty() is not True:
@@ -82,7 +80,6 @@ def process_queue():
         time = randint(100,400)
         LOGGER.info("Let's go slepping for " + str(time/60) + " min")
         sleep(time)  # Wait in order to don't spam too much
-    LOGGER.info("END process_queue() function")
 
 if __name__ == '__main__':
     # OAuth to Twitter and get Api object

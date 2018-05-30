@@ -1,13 +1,14 @@
 {
-  "log_file"              : "/opt/TweetBot/log/contestBot.log",
+  "log_file"              : "/opt/TweetBot/src/logz.conf.default",
   "consumer_key"          : "",
   "consumer_secret"       : "",
   "access_token"          : "",
   "access_token_secret"   : "",
   "lang"                  : "en",
   "search"                : ["#RT + #FOLLOW", "RT + FOLLOW", "#giveway"],
-  "follow-keyword"        : ["follow", "#follow", "Follow", "#Follow", "follower", "#follower", "FOLLOW", "#FOLLOW", "following", "#following", "FOLLOWING", "#FOLLOWING$
-  "banned_words"          : ["merci", "facebook", "netflix", "minecraft", "spotify", "nude", "paypal", "porn", "ejac", "gay", "domination", "pron", "sexe", "dominatrice$
-  "banned_users"          : ["1Jour1Gratuit"],
+  "follow-keyword"        : ["follow", "#follow", "Follow", "#Follow", "follower", "#follower", "FOLLOW", "#FOLLOW", "following", "#following", "FOLLOWING", "#FOLLOWING,"Following", "#Following" ],
+  "banned_words"          : ["merci", "facebook", "netflix", "minecraft", "spotify", "nude", "paypal", "porn", "ejac", "gay", "domination", "pron", "sexe", "voyeur", "exhib", "#exhib", "dominatrice", "#cam4", "cam4", "camgirl", "stripgirl", "#pussy", "#nude", "#naked"],
+  "banned_users"          : ["1Jour1Gratuit", "Emy_Coquine", "zbwt9"],
   "nb_tweets_search"      : "1000"
+
 }
