@@ -15,6 +15,8 @@ Python 3.5.3 or Python 3.6 (do not hesitate to test another version and tell me 
 
 Don't forget to fill the data.json with all the API informations from the apps.twitter.com website
 
+If you want to use https://logz.io/, just make an account and fill the logz.conf file with your token. If you want to use juste the log/contestBot.log file, just modify "log_file" into src/data.json 
+
 # Functionality
 Follow the people in the tweet (using regex on the @ char) if needed
 
