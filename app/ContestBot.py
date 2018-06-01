@@ -44,8 +44,11 @@ def follow_user():
                 except tweepy.error.TweepError as tweepError:
                     LOGGER.error(str(tweepError).encode('utf-8'))
                     break
+        time = randint(100,400)
+        LOGGER.info("Let's go slepping for " + str(time/60) + " min")
+        sleep(time) # Wait in order to don't spam too much
     else:
-        LOGGER.error('Follow queue empty')
+        LOGGER.warning('Follow queue empty')
 
 def retweet():
     if RTQueue.empty() is not True:
@@ -56,8 +59,11 @@ def retweet():
         except tweepy.error.TweepError as tweepError:  # Workaround
             LOGGER.error(str(tweepError).encode('utf-8'))  # Because the key Retweeted
             pass  # isn't work and always set as False, so we can never check if the tweet already retweeted
+        time = randint(100,400)
+        LOGGER.info("Let's go slepping for " + str(time/60) + " min")
+        sleep(time) # Wait in order to don't spam too much
     else:
-        LOGGER.error('RT queue empty')
+        LOGGER.warning('RT queue empty')
 
 def update_status():
     if TweetQueue.empty() is not True:
@@ -68,18 +74,17 @@ def update_status():
         except tweepy.error.TweepError as tweepError:
             LOGGER.error(str(tweepError).encode('utf-8'))
             pass
+        time = randint(100,400)
+        LOGGER.info("Let's go slepping for " + str(time/60) + " min")
+        sleep(time) # Wait in order to don't spam too much
     else:
-        LOGGER.error('Tweet queue empty')
-
+        LOGGER.warning('Tweet queue empty')
 
 def process_queue():
     queue_list = [retweet, follow_user, update_status]
     while RTQueue.empty() is not True or FollowQueue.empty() is not True or TweetQueue.empty() is not True:  # Empty the Queues randomly
         LOGGER.info("RT size : " + str(RTQueue.qsize()) + ' - Follow size : ' + str(FollowQueue.qsize()) + ' - Tweet size : ' + str(TweetQueue.qsize()))
         choice(queue_list)()
-        time = randint(100,400)
-        LOGGER.info("Let's go slepping for " + str(time/60) + " min")
-        sleep(time)  # Wait in order to don't spam too much
 
 if __name__ == '__main__':
     # OAuth to Twitter and get Api object
