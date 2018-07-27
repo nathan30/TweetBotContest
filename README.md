@@ -11,7 +11,7 @@ Python 3.5.3 or Python 3.6 (do not hesitate to test another version and tell me 
     $ cd /opt/
     $ git clone https://github.com/nathan30/TweetBotContest.git TweetBot
     $ sudo apt install python3-pip
-    $ sudo pip install tweepy
+    $ sudo pip3 install tweepy
 
 Don't forget to fill the data.json with all the API informations from the apps.twitter.com website
 
